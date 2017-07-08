@@ -15,7 +15,7 @@ export default class Editor extends Component {
     rows: []
   }
 
-  uuid = 0
+  uuid = 0  // 这个字段使用TransitionGroup可能不需要，待研究TG api
   constructor(props) {
     super(props)
     // 初始化每行的id，作为key使用值便于动画
@@ -24,7 +24,10 @@ export default class Editor extends Component {
 
 
   setUpRows() {
-    this.props.rows.unshift({ text: '', image: '' })
+    // 默认显示一个空行
+    if(!this.props.rows.length) {
+      this.props.rows.unshift({ text: '', image: '' })
+    }
     const rows = this.props.rows.map((row) => {
       row.uuid = this.uuid++
       return row
@@ -168,8 +171,8 @@ export class Row extends Component {
   render() {
     const { image, text, total, index } = this.state
     return (
-      <div>
-        <span className="remove-row" onClick={e=>this.remove()}>-</span>
+      <div className="editor-row-wrapper">
+        <div className="remove-row" ><span onClick={e=>this.remove()}></span></div>
         <div className="row-content">
           <div className="row-image">
             {/* 可以考虑加视频 */}
@@ -180,8 +183,8 @@ export class Row extends Component {
           </div>
         </div>
         <div className="move-action">
-          { index > 0 ? <span onClick={e=>this.moveUp(e)} className="move-up">u</span> : null }
-          { index < total-1 ? <span onClick={e=>this.moveDown(e)} className="move-down">d</span> : null }
+          { index > 0 ? <span onClick={e=>this.moveUp(e)} className="move-up"></span> : null }
+          { index < total-1 ? <span onClick={e=>this.moveDown(e)} className="move-down"></span> : null }
         </div>
       </div>
     )
@@ -198,7 +201,7 @@ export class Plus extends Component {
 
   render() {
     return (
-      <div className="add-new"><span onClick={ e=>this.chooseImage(e) }>+</span></div>
+      <div className="add-new"><span onClick={ e=>this.chooseImage(e) }></span></div>
     )
   }
 }

@@ -1,5 +1,12 @@
 # 网页中常见的分段文本编辑
 
+```shell
+yarn dev
+
+open localhost:8080/example
+
+```
+
 [http://github.com/aliast/segment-web-editor](http://github.com/aliast/segment-web-editor)
 
 ![](p.gif)

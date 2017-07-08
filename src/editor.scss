@@ -1,0 +1,92 @@
+// animations
+.row-enter {
+  opacity: 0;
+
+  &.row-enter-active {
+    opacity: 1;
+    transition: opacity .5s;
+  }
+}
+
+.row-leave {
+  opacity: 1;
+
+  &.row-leave-active {
+    opacity: 0;
+    transition: opacity .5s;
+  }
+}
+
+.editor-container {
+  // display: flex;
+  // flex-direction: column;
+}
+
+.editor-row {
+  overflow: hidden; 
+  flex-grow: 0;
+  > div {
+    padding: 0 20px;
+    position: relative;
+    background: #fff;
+  }
+  
+  .remove-row {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 3px 5px;
+  }
+
+  .move-action {
+    color: #5A6BC3;
+    box-sizing: border-box;
+    position: absolute;
+    padding: 3px 5px;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .add-new {
+    text-align: center;
+    background: #f2f4f5;
+    > span {
+      display: inline-block;
+      padding: 3px 7px;
+      background: #fff;
+      border: solid 1px #eee;
+      border-radius: 3px;
+      color: #ccc;
+    }
+  }
+  .row-content {
+    display: flex;
+    padding: 5px 0;
+
+    .row-image {
+      width: 80px;
+      height: 80px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .row-text {
+      flex: 1;
+      
+
+      textarea {
+        width: 100%;
+        // height: 100%;
+        box-sizing: border-box;
+        resize: none;
+      }
+    }
+  }
+}

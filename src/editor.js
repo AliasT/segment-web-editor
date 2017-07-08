@@ -45,14 +45,6 @@ export default class Editor extends Component {
     this.setState({ rows })
   }
 
-  chooseNewImage(id, index) {
-    this.insertRow({
-      image: id,
-      text: 'hello world',
-      uuid: this.uuid++
-    }, index)
-  }
-
   /** 删除一行
    * @param {number} atIndex 删除位置
    */
@@ -96,8 +88,20 @@ export default class Editor extends Component {
     this.setState({ rows })
   }
 
-  updateMedia = (evt) => {
+  updateMedia = index => src => {
+    const rows = this.state.rows
+    rows[index].image = src
+    this.setState({ rows })
+  }
 
+
+  insertRowAfter = index => evt => {
+    const i = this.uuid++
+    this.insertRow({
+      text: i,
+      image: '',
+      uuid: i
+    }, index+1)
   }
 
   render() {
@@ -116,12 +120,12 @@ export default class Editor extends Component {
                 index={i}
                 image={row.image}
                 updateRowText={this.updateText}
-                updateMedia={this.updateMedia}
+                updateMedia={this.updateMedia(i)}
                 text={row.text} 
                 remove={()=>this.deleteRow(i)} 
                 moveUp={()=>this.moveUp(i)} 
                 moveDown={()=>this.moveDown(i)} />
-              <Plus onChooseImageSuccess={id=>this.chooseNewImage(id, i+1)} />
+              <div className="add-new"><span onClick={ this.insertRowAfter(i) }></span></div>
             </div>
           ))
         }
@@ -164,8 +168,19 @@ export class Row extends Component {
     this.props.moveDown()
   }
 
-  onChange = (index) => (evt) => {
+  onChange = index => evt => {
     this.props.updateRowText(index, evt.target.value)
+  }
+
+  fireInput = evt => {
+    this.refs.file.click()
+  }
+
+  onMediaChange = (evt) => {
+    // 通常这里会包含一个图片上传过程
+    // 暂时使用本地转换dataURL展示
+    const src = window.URL.createObjectURL(evt.target.files[0])
+    this.props.updateMedia(src)
   }
 
   render() {
@@ -176,7 +191,8 @@ export class Row extends Component {
         <div className="row-content">
           <div className="row-image">
             {/* 可以考虑加视频 */}
-            <img src={image} />
+            <input type="file" ref="file" accept="" onChange={this.onMediaChange}/>
+            <img src={image} onClick={this.fireInput}/>
           </div>
           <div className="row-text">
             <textarea onChange={this.onChange(index)} value={text}></textarea>
@@ -187,21 +203,6 @@ export class Row extends Component {
           { index < total-1 ? <span onClick={e=>this.moveDown(e)} className="move-down"></span> : null }
         </div>
       </div>
-    )
-  }
-}
-
-
-/* 添加新行 */
-export class Plus extends Component {
-  chooseImage() {
-    // 测试demo方法，待移除
-    this.props.onChooseImageSuccess('https://pro.modao.cc/uploads2/images/636/6368597/raw_1480055555.png') // test
-  }
-
-  render() {
-    return (
-      <div className="add-new"><span onClick={ e=>this.chooseImage(e) }></span></div>
     )
   }
 }

@@ -10340,7 +10340,16 @@ var _editor2 = _interopRequireDefault(_editor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_editor2.default, null), document.querySelector('#demo'));
+// 模仿文件上传，实现上传借口就好，用实际方案替换
+function upload(file) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(function () {
+      resolve('http://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/gs.png&w=288&h=288');
+    }, 1000);
+  });
+}
+
+_reactDom2.default.render(_react2.default.createElement(_editor2.default, { upload: upload }), document.querySelector('#demo'));
 
 /***/ }),
 /* 86 */
@@ -22505,10 +22514,12 @@ var Editor = function (_Component) {
     };
 
     _this.updateMedia = function (index) {
-      return function (src) {
-        var rows = _this.state.rows;
-        rows[index].image = src;
-        _this.setState({ rows: rows });
+      return function (file) {
+        _this.props.upload(file).then(function (src) {
+          var rows = _this.state.rows;
+          rows[index].image = src;
+          _this.setState({ rows: rows });
+        });
       };
     };
 
@@ -22686,13 +22697,13 @@ var Row = exports.Row = function (_Component2) {
     _this5.onMediaChange = function (evt) {
       // 通常这里会包含一个图片上传过程
       // 暂时使用本地转换dataURL展示
-      var src = window.URL.createObjectURL(evt.target.files[0]);
-      _this5.props.updateMedia(src);
+      // const src = window.URL.createObjectURL(evt.target.files[0])
+      _this5.props.updateMedia(files[0]);
     };
 
     _this5.onImageDrop = function (files) {
-      var src = window.URL.createObjectURL(files[0]);
-      _this5.props.updateMedia(src);
+      // const src = window.URL.createObjectURL(files[0])
+      _this5.props.updateMedia(files[0]);
     };
 
     _this5.state = {
@@ -23882,8 +23893,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./editor.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/sass-loader/lib/loader.js!./editor.scss");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./editor.scss", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./editor.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -23901,7 +23912,7 @@ exports = module.exports = __webpack_require__(194)(undefined);
 
 
 // module
-exports.push([module.i, ".editor-container {\n  background: #f2f4f5; }\n\n.editor-row {\n  overflow: hidden;\n  padding: 20px 0 0; }\n  .editor-row + .editor-row {\n    border-top: solid 1px #dcdcdc; }\n  .editor-row.entering {\n    background: #03a9f4;\n    transition: background .5s ease-out; }\n  .editor-row.entered {\n    background: initial;\n    transition: background .5s ease-out; }\n  .editor-row.exiting {\n    opacity: 0;\n    transition: opacity .5s ease-out; }\n  .editor-row > .editor-row-wrapper {\n    display: flex;\n    position: relative;\n    height: 80px; }\n  .editor-row .remove-row {\n    width: 30px;\n    box-sizing: border-box;\n    padding: 3px 5px; }\n    .editor-row .remove-row > span {\n      background: url(" + __webpack_require__(195) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n  .editor-row .move-action {\n    display: flex;\n    width: 20px;\n    height: 100%;\n    color: #5A6BC3;\n    box-sizing: border-box;\n    flex-direction: column;\n    justify-content: space-between; }\n    .editor-row .move-action .move-up {\n      background: url(" + __webpack_require__(196) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n    .editor-row .move-action .move-down {\n      background: url(" + __webpack_require__(197) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n  .editor-row .add-new {\n    text-align: center; }\n    .editor-row .add-new > span {\n      background: url(" + __webpack_require__(198) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px;\n      padding: 10px 5px;\n      border-radius: 3px;\n      color: #ccc; }\n  .editor-row .row-content {\n    display: flex;\n    flex: 1;\n    background: #fff; }\n    .editor-row .row-content .row-image {\n      width: 80px;\n      height: 80px; }\n      .editor-row .row-content .row-image input[type=\"file\"] {\n        display: none; }\n      .editor-row .row-content .row-image img {\n        width: 100%;\n        height: 100%; }\n        .editor-row .row-content .row-image img.blank {\n          background: url(" + __webpack_require__(199) + ") no-repeat center center;\n          background-size: 107px 80px; }\n    .editor-row .row-content .row-text {\n      flex: 1;\n      height: 80px; }\n      .editor-row .row-content .row-text textarea {\n        border-radius: 0;\n        -webkit-appearance: none;\n        outline: 0;\n        border: solid 1px #03a9f4;\n        width: 100%;\n        height: 100%;\n        box-sizing: border-box;\n        resize: none; }\n", ""]);
+exports.push([module.i, ".editor-container {\n  background: #f2f4f5; }\n\n.editor-row {\n  overflow: hidden;\n  padding: 20px 0 0; }\n  .editor-row + .editor-row {\n    border-top: solid 1px #dcdcdc; }\n  .editor-row.entering {\n    background: #03a9f4;\n    transition: background .5s ease-out; }\n  .editor-row.entered {\n    background: initial;\n    transition: background .5s ease-out; }\n  .editor-row.exiting {\n    opacity: 0;\n    transition: opacity .5s ease-out; }\n  .editor-row > .editor-row-wrapper {\n    display: flex;\n    position: relative;\n    height: 80px; }\n  .editor-row .remove-row {\n    width: 30px;\n    box-sizing: border-box;\n    padding: 3px 5px; }\n    .editor-row .remove-row > span {\n      background: url(" + __webpack_require__(195) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n  .editor-row .move-action {\n    display: flex;\n    width: 20px;\n    height: 100%;\n    color: #5A6BC3;\n    box-sizing: border-box;\n    flex-direction: column;\n    justify-content: space-between; }\n    .editor-row .move-action .move-up {\n      background: url(" + __webpack_require__(196) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n    .editor-row .move-action .move-down {\n      background: url(" + __webpack_require__(197) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px; }\n  .editor-row .add-new {\n    text-align: center; }\n    .editor-row .add-new > span {\n      background: url(" + __webpack_require__(198) + ") center center/20px 20px no-repeat;\n      display: inline-block;\n      width: 20px;\n      height: 20px;\n      padding: 10px 5px;\n      border-radius: 3px;\n      color: #ccc; }\n  .editor-row .row-content {\n    display: flex;\n    flex: 1;\n    background: #fff; }\n    .editor-row .row-content .row-image {\n      width: 80px;\n      height: 80px;\n      box-sizing: border-box; }\n      .editor-row .row-content .row-image > div {\n        outline: solid transparent 1px; }\n        .editor-row .row-content .row-image > div.drag-enter {\n          outline: 1px dashed #03a9f4; }\n      .editor-row .row-content .row-image input[type=\"file\"] {\n        display: none; }\n      .editor-row .row-content .row-image img {\n        width: 100%;\n        height: 100%; }\n        .editor-row .row-content .row-image img.blank {\n          background: url(" + __webpack_require__(199) + ") no-repeat center center;\n          background-size: 107px 80px; }\n    .editor-row .row-content .row-text {\n      flex: 1;\n      height: 80px; }\n      .editor-row .row-content .row-text textarea {\n        border-radius: 0;\n        -webkit-appearance: none;\n        outline: 0;\n        border: solid 1px #03a9f4;\n        width: 100%;\n        height: 100%;\n        box-sizing: border-box;\n        resize: none; }\n", ""]);
 
 // exports
 

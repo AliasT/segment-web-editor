@@ -15,23 +15,26 @@
 
 .editor-row {
   overflow: hidden; 
-  transition: all .5s ease-out;
   &.entering {
     background: #03a9f4;
     // opacity: 0;
+    transition: background .5s ease-out;
   }
 
   &.entered {
     // opacity: 1;
     background: initial;
+    transition: background .5s ease-out;
   }
 
   &.exiting {
     opacity: 1;
+    transition: opacity .5s ease-out;
   }
 
   &.exited {
     opacity: 0;
+    transition: opacity .5s ease-out;
   }
 
   & + .editor-row {

@@ -1,22 +1,3 @@
-// animations
-.row-enter {
-  opacity: 0;
-
-  &.row-enter-active {
-    opacity: 1;
-    transition: opacity .5s;
-  }
-}
-
-.row-leave {
-  opacity: 1;
-
-  &.row-leave-active {
-    opacity: 0;
-    transition: opacity .5s;
-  }
-}
-
 @mixin icon($image) {
   background: url($image) center center/20px 20px no-repeat;
   display: inline-block;
@@ -34,7 +15,7 @@
 
 .editor-row {
   overflow: hidden; 
-  transition: all .5s;
+  transition: all .5s ease-out;
   &.entering {
     background: #03a9f4;
     // opacity: 0;
@@ -44,6 +25,15 @@
     // opacity: 1;
     background: initial;
   }
+
+  &.exiting {
+    opacity: 1;
+  }
+
+  &.exited {
+    opacity: 0;
+  }
+
   & + .editor-row {
     margin-top: 5px;
   }

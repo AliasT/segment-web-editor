@@ -96,8 +96,10 @@
       img {
         width: 100%;
         height: 100%;
-        background: url("thumbnail.jpg") no-repeat center center;
-        background-size: 107px 80px;
+        &.blank {
+          background: url("thumbnail.jpg") no-repeat center center;
+          background-size: 107px 80px;
+        }
       }
     }
     .row-text {

@@ -192,7 +192,7 @@ export class Row extends Component {
           <div className="row-image">
             {/* 可以考虑加视频 */}
             <input type="file" ref="file" accept="" onChange={this.onMediaChange}/>
-            <img src={image} onClick={this.fireInput}/>
+            <img className={image ? '' : 'blank'} src={image} onClick={this.fireInput}/>
           </div>
           <div className="row-text">
             <textarea onChange={this.onChange(index)} value={text}></textarea>

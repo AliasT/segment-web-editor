@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
+import Transition from 'react-transition-group/Transition'
 import "./editor.scss"
 
 
@@ -109,27 +110,32 @@ export default class Editor extends Component {
     const total = rows.length
 
     return (
-      <div className="editor-container">
+      <TransitionGroup className="editor-container">
         {/* mark to use transition */}
         {
           rows.map((row, i) => (
             // const styles = { order: i + 1 }
-            <div key={row.uuid} className="editor-row" ref={ r=>this['row_' + i]=r}>
-              <Row
-                total={total} 
-                index={i}
-                image={row.image}
-                updateRowText={this.updateText}
-                updateMedia={this.updateMedia(i)}
-                text={row.text} 
-                remove={()=>this.deleteRow(i)} 
-                moveUp={()=>this.moveUp(i)} 
-                moveDown={()=>this.moveDown(i)} />
-              <div className="add-new"><span onClick={ this.insertRowAfter(i) }></span></div>
-            </div>
+            <Transition timeout={300} key={row.uuid}>
+              {(status) => (
+                <div  className={`editor-row ${status}`} ref={ r=>this['row_' + i]=r}>
+                  <Row
+                    total={total} 
+                    index={i}
+                    image={row.image}
+                    updateRowText={this.updateText}
+                    updateMedia={this.updateMedia(i)}
+                    text={row.text} 
+                    remove={()=>this.deleteRow(i)} 
+                    moveUp={()=>this.moveUp(i)} 
+                    moveDown={()=>this.moveDown(i)} />
+                  <div className="add-new"><span onClick={this.insertRowAfter(i)}></span></div>
+                </div>
+              )}
+              
+            </Transition>
           ))
         }
-      </div>
+      </TransitionGroup>
     )
   }
 }

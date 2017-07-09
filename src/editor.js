@@ -196,11 +196,11 @@ export class Row extends Component {
       <div className="editor-row-wrapper">
         <div className="remove-row" ><span onClick={e=>this.remove()}></span></div>
         <div className="row-content">
-          <div className="row-image">
+          <FileDnD className="row-image">
             {/* 可以考虑加视频 */}
             <input type="file" ref="file" accept="" onChange={this.onMediaChange}/>
             <img className={image ? '' : 'blank'} src={image} onClick={this.fireInput}/>
-          </div>
+          </FileDnD>
           <div className="row-text">
             <textarea onChange={this.onChange(index)} value={text}></textarea>
           </div>

@@ -183,10 +183,16 @@ export class Row extends Component {
     this.refs.file.click()
   }
 
-  onMediaChange = (evt) => {
+  onMediaChange = evt => {
     // 通常这里会包含一个图片上传过程
     // 暂时使用本地转换dataURL展示
     const src = window.URL.createObjectURL(evt.target.files[0])
+    this.props.updateMedia(src)
+  }
+
+  // 同上
+  onImageDrop =files => {
+    const src = window.URL.createObjectURL(files[0])
     this.props.updateMedia(src)
   }
 
@@ -196,7 +202,7 @@ export class Row extends Component {
       <div className="editor-row-wrapper">
         <div className="remove-row" ><span onClick={e=>this.remove()}></span></div>
         <div className="row-content">
-          <FileDnD className="row-image">
+          <FileDnD className="row-image" onDrop={this.onImageDrop}>
             {/* 可以考虑加视频 */}
             <input type="file" ref="file" accept="" onChange={this.onMediaChange}/>
             <img className={image ? '' : 'blank'} src={image} onClick={this.fireInput}/>

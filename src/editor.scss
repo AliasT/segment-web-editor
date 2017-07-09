@@ -28,11 +28,6 @@
   }
 
   &.exiting {
-    opacity: 1;
-    transition: opacity .5s ease-out;
-  }
-
-  &.exited {
     opacity: 0;
     transition: opacity .5s ease-out;
   }
@@ -108,6 +103,8 @@
       height: 80px;
 
       textarea {
+        border-radius: 0;
+        -webkit-appearance: none;
         outline: 0;
         border: solid 1px #03a9f4;
         width: 100%;

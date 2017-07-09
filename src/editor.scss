@@ -6,15 +6,15 @@
 }
 
 .editor-container {
-  // display: flex;
-  // flex-direction: column;
-  padding: 10px 0;
   background: #f2f4f5;
-  
 }
 
 .editor-row {
-  overflow: hidden; 
+  overflow: hidden;
+  padding: 20px 0 0;
+  & + .editor-row {
+    border-top: solid 1px #dcdcdc; 
+  }
   &.entering {
     background: #03a9f4;
     // opacity: 0;
@@ -32,9 +32,6 @@
     transition: opacity .5s ease-out;
   }
 
-  & + .editor-row {
-    margin-top: 5px;
-  }
   > .editor-row-wrapper {
     display: flex;
     position: relative;
@@ -70,10 +67,9 @@
 
   .add-new {
     text-align: center;
-    margin-top: 5px;
     > span {
       @include icon("plus.svg");
-      padding: 3px 5px;
+      padding: 10px 5px;
       border-radius: 3px;
       color: #ccc;
     }

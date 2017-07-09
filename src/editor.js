@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
+import Transition from 'react-transition-group/Transition'
+import FileDnD from './file-dnd'
 import "./editor.scss"
 
 
@@ -109,27 +111,32 @@ export default class Editor extends Component {
     const total = rows.length
 
     return (
-      <div className="editor-container">
+      <TransitionGroup className="editor-container">
         {/* mark to use transition */}
         {
           rows.map((row, i) => (
             // const styles = { order: i + 1 }
-            <div key={row.uuid} className="editor-row" ref={ r=>this['row_' + i]=r}>
-              <Row
-                total={total} 
-                index={i}
-                image={row.image}
-                updateRowText={this.updateText}
-                updateMedia={this.updateMedia(i)}
-                text={row.text} 
-                remove={()=>this.deleteRow(i)} 
-                moveUp={()=>this.moveUp(i)} 
-                moveDown={()=>this.moveDown(i)} />
-              <div className="add-new"><span onClick={ this.insertRowAfter(i) }></span></div>
-            </div>
+            <Transition timeout={300} key={row.uuid}>
+              {(status) => (
+                <div  className={`editor-row ${status}`} ref={ r=>this['row_' + i]=r}>
+                  <Row
+                    total={total} 
+                    index={i}
+                    image={row.image}
+                    updateRowText={this.updateText}
+                    updateMedia={this.updateMedia(i)}
+                    text={row.text} 
+                    remove={()=>this.deleteRow(i)} 
+                    moveUp={()=>this.moveUp(i)} 
+                    moveDown={()=>this.moveDown(i)} />
+                  <div className="add-new"><span onClick={this.insertRowAfter(i)}></span></div>
+                </div>
+              )}
+              
+            </Transition>
           ))
         }
-      </div>
+      </TransitionGroup>
     )
   }
 }
@@ -176,10 +183,16 @@ export class Row extends Component {
     this.refs.file.click()
   }
 
-  onMediaChange = (evt) => {
+  onMediaChange = evt => {
     // 通常这里会包含一个图片上传过程
     // 暂时使用本地转换dataURL展示
     const src = window.URL.createObjectURL(evt.target.files[0])
+    this.props.updateMedia(src)
+  }
+
+  // 同上
+  onImageDrop =files => {
+    const src = window.URL.createObjectURL(files[0])
     this.props.updateMedia(src)
   }
 
@@ -189,11 +202,11 @@ export class Row extends Component {
       <div className="editor-row-wrapper">
         <div className="remove-row" ><span onClick={e=>this.remove()}></span></div>
         <div className="row-content">
-          <div className="row-image">
+          <FileDnD className="row-image" onDrop={this.onImageDrop}>
             {/* 可以考虑加视频 */}
             <input type="file" ref="file" accept="" onChange={this.onMediaChange}/>
-            <img src={image} onClick={this.fireInput}/>
-          </div>
+            <img className={image ? '' : 'blank'} src={image} onClick={this.fireInput}/>
+          </FileDnD>
           <div className="row-text">
             <textarea onChange={this.onChange(index)} value={text}></textarea>
           </div>

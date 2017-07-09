@@ -9,7 +9,7 @@ open localhost:8080/example
 ```
 
 ```javascript
-// 模仿文件上传，实现上传借口就好，用实际方案替换
+// 模仿文件上传，实现上传接口就好，用实际方案替换
 function upload(file) {
   return new Promise(function (resolve, reject){
     setTimeout(() => { 

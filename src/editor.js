@@ -90,10 +90,12 @@ export default class Editor extends Component {
     this.setState({ rows })
   }
 
-  updateMedia = index => src => {
-    const rows = this.state.rows
-    rows[index].image = src
-    this.setState({ rows })
+  updateMedia = index => file => {
+    this.props.upload(file).then(src => {
+      const rows = this.state.rows
+      rows[index].image = src
+      this.setState({ rows })
+    })
   }
 
 
@@ -132,7 +134,6 @@ export default class Editor extends Component {
                   <div className="add-new"><span onClick={this.insertRowAfter(i)}></span></div>
                 </div>
               )}
-              
             </Transition>
           ))
         }
@@ -186,14 +187,14 @@ export class Row extends Component {
   onMediaChange = evt => {
     // 通常这里会包含一个图片上传过程
     // 暂时使用本地转换dataURL展示
-    const src = window.URL.createObjectURL(evt.target.files[0])
-    this.props.updateMedia(src)
+    // const src = window.URL.createObjectURL(evt.target.files[0])
+    this.props.updateMedia(files[0])
   }
 
   // 同上
   onImageDrop =files => {
-    const src = window.URL.createObjectURL(files[0])
-    this.props.updateMedia(src)
+    // const src = window.URL.createObjectURL(files[0])
+    this.props.updateMedia(files[0])
   }
 
   render() {

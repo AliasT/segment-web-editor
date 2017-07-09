@@ -82,6 +82,14 @@
     .row-image {
       width: 80px;
       height: 80px;
+      box-sizing: border-box;
+
+      > div {
+        outline: solid transparent 1px;
+        &.drag-enter {
+          outline: 1px dashed #03a9f4;
+        }
+      }
       input[type="file"] {
         display: none;
       }

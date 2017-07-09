@@ -1,4 +1,5 @@
 # 网页中常见的分段文本编辑
+🔨🔨🔨developing
 
 ```shell
 yarn dev
@@ -7,10 +8,18 @@ open localhost:8080/example
 
 ```
 
-[http://github.com/aliast/segment-web-editor](http://github.com/aliast/segment-web-editor)
+```javascript
+// 模仿文件上传，实现上传借口就好，用实际方案替换
+function upload(file) {
+  return new Promise(function (resolve, reject){
+    setTimeout(() => { 
+      resolve('http://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/gs.png&w=288&h=288') 
+    }, 1000)
+  })
+}
 
-![](p.gif)
-
+<Editor upload={upload} />
+```
 
 ## todo 
 
